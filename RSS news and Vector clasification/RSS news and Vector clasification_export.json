@@ -1,0 +1,412 @@
+{
+  "workflow": {
+    "name": "RSS news and Vector clasification",
+    "nodes": [
+      {
+        "id": "n_w9xttjst",
+        "name": "schedule_trigger_n_w9xt",
+        "type": "schedule_trigger",
+        "typeVersion": 1,
+        "position": [
+          95,
+          -21.666666666666675
+        ],
+        "parameters": {
+          "everySeconds": 7200,
+          "atTimestamp": 0,
+          "cron": ""
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "n_2ghhxix4",
+        "name": "fetch_rss_n_2ghh",
+        "type": "fetch_rss",
+        "typeVersion": 1,
+        "position": [
+          320,
+          -136.66666666666666
+        ],
+        "parameters": {
+          "rss_urls": [
+            "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml",
+            "https://www.investing.com/rss/news_14.rss",
+            "https://www.investing.com/rss/news_1063.rss",
+            "https://feeds.bloomberg.com/markets/news.rss"
+          ],
+          "limit": 100
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "n_jpko37iu",
+        "name": "table_n_jpko",
+        "type": "table",
+        "typeVersion": 1,
+        "position": [
+          530.8333333333334,
+          -219.1666666666667
+        ],
+        "parameters": {
+          "widgetId": "wid_t5sa68lw",
+          "rowsExpr": "{{ vars['fetch_rss_n_2ghh']['results'] }}",
+          "rows": [],
+          "limit": 500,
+          "columns": [
+            {
+              "id": "title",
+              "field": "title",
+              "label": "Title",
+              "type": "auto",
+              "width": 140,
+              "align": "auto",
+              "hidden": false,
+              "pin": null,
+              "colorMode": "static",
+              "staticColor": "#dedede",
+              "heatmap": {
+                "enabled": false,
+                "palette": "greenToRed",
+                "min": null,
+                "max": null,
+                "reverse": false
+              },
+              "threshold": {
+                "enabled": false,
+                "style": "text",
+                "conditions": [
+                  {
+                    "operator": "lt",
+                    "value": null,
+                    "color": "#ef4444",
+                    "icon": "none"
+                  }
+                ]
+              },
+              "decimals": null,
+              "prefix": "",
+              "suffix": "",
+              "wrap": false,
+              "tooltipField": "body",
+              "linkField": "url"
+            },
+            {
+              "id": "date",
+              "field": "date",
+              "label": "Date",
+              "type": "auto",
+              "width": 140,
+              "align": "auto",
+              "hidden": false,
+              "pin": null,
+              "colorMode": "auto",
+              "staticColor": "#36a2eb",
+              "heatmap": {
+                "enabled": false,
+                "palette": "greenToRed",
+                "min": null,
+                "max": null,
+                "reverse": false
+              },
+              "threshold": {
+                "enabled": false,
+                "style": "text",
+                "conditions": [
+                  {
+                    "operator": "lt",
+                    "value": null,
+                    "color": "#ef4444",
+                    "icon": "none"
+                  }
+                ]
+              },
+              "decimals": null,
+              "prefix": "",
+              "suffix": "",
+              "wrap": false,
+              "tooltipField": "",
+              "linkField": ""
+            },
+            {
+              "id": "source",
+              "field": "source",
+              "label": "Source",
+              "type": "auto",
+              "width": 140,
+              "align": "auto",
+              "hidden": false,
+              "pin": null,
+              "colorMode": "auto",
+              "staticColor": "#36a2eb",
+              "heatmap": {
+                "enabled": false,
+                "palette": "greenToRed",
+                "min": null,
+                "max": null,
+                "reverse": false
+              },
+              "threshold": {
+                "enabled": false,
+                "style": "text",
+                "conditions": [
+                  {
+                    "operator": "lt",
+                    "value": null,
+                    "color": "#ef4444",
+                    "icon": "none"
+                  }
+                ]
+              },
+              "decimals": null,
+              "prefix": "",
+              "suffix": "",
+              "wrap": false,
+              "tooltipField": "",
+              "linkField": ""
+            }
+          ],
+          "tableConfig": {
+            "theme": "neoDark",
+            "density": "compact",
+            "rowHeight": "compact",
+            "fontSize": "11px",
+            "accentColor": "",
+            "headerVariant": "flat",
+            "striped": true,
+            "stickyHeader": true,
+            "showToolbar": false,
+            "enablePagination": false,
+            "enableColumnFilters": false,
+            "enableGlobalFilter": false,
+            "enableRowSelection": false,
+            "enableColumnOrdering": true,
+            "enablePinning": true,
+            "enableColumnResizing": false,
+            "enableFullScreenToggle": false,
+            "enableBottomToolbar": false,
+            "autoAddNewFields": false,
+            "autoHeatmapNumeric": false,
+            "denseBorders": false,
+            "sortBy": "date",
+            "sortDirection": "desc",
+            "columns": [
+              {
+                "id": "title",
+                "field": "title",
+                "label": "Title",
+                "type": "auto",
+                "width": 140,
+                "align": "auto",
+                "hidden": false,
+                "pin": null,
+                "colorMode": "static",
+                "staticColor": "#dedede",
+                "heatmap": {
+                  "enabled": false,
+                  "palette": "greenToRed",
+                  "min": null,
+                  "max": null,
+                  "reverse": false
+                },
+                "threshold": {
+                  "enabled": false,
+                  "style": "text",
+                  "conditions": [
+                    {
+                      "operator": "lt",
+                      "value": null,
+                      "color": "#ef4444",
+                      "icon": "none"
+                    }
+                  ]
+                },
+                "decimals": null,
+                "prefix": "",
+                "suffix": "",
+                "wrap": false,
+                "tooltipField": "body",
+                "linkField": "url"
+              },
+              {
+                "id": "date",
+                "field": "date",
+                "label": "Date",
+                "type": "auto",
+                "width": 140,
+                "align": "auto",
+                "hidden": false,
+                "pin": null,
+                "colorMode": "auto",
+                "staticColor": "#36a2eb",
+                "heatmap": {
+                  "enabled": false,
+                  "palette": "greenToRed",
+                  "min": null,
+                  "max": null,
+                  "reverse": false
+                },
+                "threshold": {
+                  "enabled": false,
+                  "style": "text",
+                  "conditions": [
+                    {
+                      "operator": "lt",
+                      "value": null,
+                      "color": "#ef4444",
+                      "icon": "none"
+                    }
+                  ]
+                },
+                "decimals": null,
+                "prefix": "",
+                "suffix": "",
+                "wrap": false,
+                "tooltipField": "",
+                "linkField": ""
+              },
+              {
+                "id": "source",
+                "field": "source",
+                "label": "Source",
+                "type": "auto",
+                "width": 140,
+                "align": "auto",
+                "hidden": false,
+                "pin": null,
+                "colorMode": "auto",
+                "staticColor": "#36a2eb",
+                "heatmap": {
+                  "enabled": false,
+                  "palette": "greenToRed",
+                  "min": null,
+                  "max": null,
+                  "reverse": false
+                },
+                "threshold": {
+                  "enabled": false,
+                  "style": "text",
+                  "conditions": [
+                    {
+                      "operator": "lt",
+                      "value": null,
+                      "color": "#ef4444",
+                      "icon": "none"
+                    }
+                  ]
+                },
+                "decimals": null,
+                "prefix": "",
+                "suffix": "",
+                "wrap": false,
+                "tooltipField": "",
+                "linkField": ""
+              }
+            ]
+          }
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "n_vrptsm1p",
+        "name": "llm_n_vrpt",
+        "type": "llm",
+        "typeVersion": 1,
+        "position": [
+          391.66666666666674,
+          -20.000000000000014
+        ],
+        "parameters": {
+          "system": "{{ vars['fetch_rss_n_2ghh']['results'] }}",
+          "prompt": "Zrób bardzo krótkie podsumowanie. Wyciągnij najważniejsze wnioski. Pisz po polsku"
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "n_608w3858",
+        "name": "news_sumary_pl",
+        "type": "markdown",
+        "typeVersion": 1,
+        "position": [
+          531.6666666666666,
+          -136.66666666666666
+        ],
+        "parameters": {
+          "widgetId": "wid_eyvlthkq",
+          "textExpr": "{{ vars['llm_n_vrpt']['text'] }}",
+          "text": "",
+          "fontSize": ""
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      }
+    ],
+    "connections": {
+      "schedule_trigger_n_w9xt": {
+        "main": [
+          [
+            {
+              "node": "fetch_rss_n_2ghh",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "fetch_rss_n_2ghh": {
+        "main": [
+          [
+            {
+              "node": "table_n_jpko",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "llm_n_vrpt",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "llm_n_vrpt": {
+        "main": [
+          [
+            {
+              "node": "news_sumary_pl",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "trigger": null,
+    "visibility": "private",
+    "trigger_token": "845b8ec648bba8270ce1a5245216e66f",
+    "doc_info": {
+      "updated_at": "2025-12-19T07:12:25.233922"
+    },
+    "run_seq": 72
+  },
+  "version": "1.0",
+  "exported_at": "2026-01-09T20:36:11.437290+00:00"
+}

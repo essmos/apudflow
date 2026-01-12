@@ -1,0 +1,170 @@
+{
+  "workflow": {
+    "name": "Hourly RSS News Summarizer with Markdown Output",
+    "nodes": [
+      {
+        "id": "trigger_1",
+        "name": "Schedule Trigger",
+        "type": "schedule_trigger",
+        "typeVersion": 1,
+        "position": [
+          100,
+          100
+        ],
+        "parameters": {
+          "everySeconds": 3600,
+          "atTimestamp": 0,
+          "cron": ""
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "fetch_rss_1",
+        "name": "Fetch RSS",
+        "type": "fetch_rss",
+        "typeVersion": 1,
+        "position": [
+          400,
+          100
+        ],
+        "parameters": {
+          "limit": 20,
+          "rss_urls": [
+            "https://www.investing.com/rss/news_1063.rss",
+            "https://www.investing.com/rss/news_14.rss",
+            "https://feeds.bloomberg.com/markets/news.rss",
+            "https://news.yahoo.com/rss/finance",
+            "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml"
+          ]
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "table_1",
+        "name": "News Table",
+        "type": "table",
+        "typeVersion": 1,
+        "position": [
+          700,
+          100
+        ],
+        "parameters": {
+          "widgetId": "wid_news_table",
+          "limit": 500,
+          "rowsExpr": "{{ [{'title': item['title'], 'link': item['link']} for item in vars['Fetch RSS']['results'] ] }}",
+          "columns": []
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "llm_1",
+        "name": "Market Analyst",
+        "type": "llm",
+        "typeVersion": 1,
+        "position": [
+          998.1036409822184,
+          100
+        ],
+        "parameters": {
+          "system": "{{ vars['Fetch RSS']['results'] }}",
+          "prompt": "Based on the headlines in the table below, provide a concise market overview and highlight any notable trends.\n\n{{ vars['News Table']['rows'] }}",
+          "apiKey": ""
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "markdown_1",
+        "name": "Market Overview",
+        "type": "markdown",
+        "typeVersion": 1,
+        "position": [
+          1300,
+          100
+        ],
+        "parameters": {
+          "widgetId": "wid_market_overview",
+          "textExpr": "{{ vars['Market Analyst']['text'] }}",
+          "text": "",
+          "fontSize": ""
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Fetch RSS",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Fetch RSS": {
+        "main": [
+          [
+            {
+              "node": "News Table",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "News Table": {
+        "main": [
+          [
+            {
+              "node": "Market Analyst",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Market Analyst": {
+        "main": [
+          [
+            {
+              "node": "Market Overview",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "trigger": null,
+    "visibility": "private",
+    "workflowDescription": "This workflow runs hourly, fetches RSS news items, stores them in a table, uses an LLM to generate market analysis summaries, and outputs the results as a markdown overview.",
+    "trigger_token": "7e8e3739eb4d255c77e65bfa7302b41a",
+    "doc_info": {
+      "updated_at": "2026-01-11T12:03:18.848192"
+    },
+    "run_seq": 9
+  },
+  "version": "1.0",
+  "exported_at": "2026-01-11T19:25:53.611590+00:00"
+}

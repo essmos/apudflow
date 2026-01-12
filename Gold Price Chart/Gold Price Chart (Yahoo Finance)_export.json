@@ -1,0 +1,110 @@
+{
+  "workflow": {
+    "name": "Gold Price Chart (Yahoo Finance)",
+    "nodes": [
+      {
+        "id": "trigger_1",
+        "name": "Schedule Trigger",
+        "type": "schedule_trigger",
+        "typeVersion": 1,
+        "position": [
+          100,
+          100
+        ],
+        "parameters": {
+          "everySeconds": 21600,
+          "atTimestamp": 0,
+          "cron": ""
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "yahoo_gold_1",
+        "name": "Gold Price",
+        "type": "fetch_yahoo",
+        "typeVersion": 1,
+        "position": [
+          400,
+          100
+        ],
+        "parameters": {
+          "symbol": "GC=F",
+          "start": "{{ (now() - days(30)).strftime('%Y-%m-%d') }}",
+          "end": "{{ now().strftime('%Y-%m-%d') }}",
+          "interval": "1d",
+          "data_type": "price"
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "gold_chart_1",
+        "name": "Gold Price Chart",
+        "type": "candle_chart",
+        "typeVersion": 1,
+        "position": [
+          700,
+          100
+        ],
+        "parameters": {
+          "widgetId": "wid_gold_chart",
+          "rowsExpr": "{{ vars['Gold Price']['results'] }}",
+          "columns": [],
+          "open": "Open",
+          "close": "Close",
+          "high": "High",
+          "low": "Low",
+          "volume": "",
+          "timestamp": "",
+          "limit": 500
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Gold Price",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Gold Price": {
+        "main": [
+          [
+            {
+              "node": "Gold Price Chart",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "trigger": null,
+    "visibility": "private",
+    "workflowDescription": "",
+    "trigger_token": "7ef24e67dfe2dd63214f6a875a4e5153",
+    "doc_info": {
+      "updated_at": "2026-01-11T19:25:07.727893"
+    },
+    "run_seq": 6
+  },
+  "version": "1.0",
+  "exported_at": "2026-01-11T19:25:33.118157+00:00"
+}

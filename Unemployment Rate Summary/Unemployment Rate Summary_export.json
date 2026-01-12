@@ -1,0 +1,137 @@
+{
+  "workflow": {
+    "name": "Unemployment Rate Summary (Markdown)",
+    "nodes": [
+      {
+        "id": "trigger_1",
+        "name": "Schedule Trigger",
+        "type": "schedule_trigger",
+        "typeVersion": 1,
+        "position": [
+          100,
+          100
+        ],
+        "parameters": {
+          "everySeconds": 3600,
+          "atTimestamp": 0,
+          "cron": ""
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "fred_1",
+        "name": "FRED Data",
+        "type": "fred_connector",
+        "typeVersion": 1,
+        "position": [
+          400,
+          100
+        ],
+        "parameters": {
+          "operation": "series_observations",
+          "series_id": "UNRATE",
+          "frequency": "m",
+          "start_date": "{{ (now() - months(12)).strftime('%Y-%m-%d') }}",
+          "end_date": "{{ now().strftime('%Y-%m-%d') }}",
+          "limit": 100
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "summarizer_1",
+        "name": "AI Summarizer",
+        "type": "ai_summarizer",
+        "typeVersion": 1,
+        "position": [
+          700,
+          100
+        ],
+        "parameters": {
+          "content": "{{ vars['FRED Data']['results'] }}",
+          "summaryType": "concise",
+          "maxLength": 200,
+          "focusAreas": ""
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "markdown_1",
+        "name": "Summary Markdown",
+        "type": "markdown",
+        "typeVersion": 1,
+        "position": [
+          1000,
+          100
+        ],
+        "parameters": {
+          "widgetId": "wid_summary_md",
+          "textExpr": "{{ vars['AI Summarizer']['summary'] }}",
+          "text": "",
+          "fontSize": ""
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "FRED Data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "FRED Data": {
+        "main": [
+          [
+            {
+              "node": "AI Summarizer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Summarizer": {
+        "main": [
+          [
+            {
+              "node": "Summary Markdown",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "trigger": null,
+    "visibility": "private",
+    "workflowDescription": "This workflow runs on a schedule, pulls the latest unemployment rate data from FRED, generates an AI‑written summary, and formats the result as markdown for easy viewing.",
+    "trigger_token": "449f4d7efc2ca9526bcfa9e415340982",
+    "doc_info": {
+      "updated_at": "2026-01-11T21:11:36.588159"
+    },
+    "run_seq": 4
+  },
+  "version": "1.0",
+  "exported_at": "2026-01-11T21:12:13.313442+00:00"
+}

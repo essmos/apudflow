@@ -1,0 +1,160 @@
+{
+  "workflow": {
+    "name": "TimescaleDB Correlation Analysis – Show LLM Result in Markdown",
+    "nodes": [
+      {
+        "id": "trigger_1",
+        "name": "Schedule Trigger",
+        "type": "schedule_trigger",
+        "typeVersion": 1,
+        "position": [
+          100,
+          100
+        ],
+        "parameters": {
+          "everySeconds": 86400,
+          "atTimestamp": 0,
+          "cron": ""
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "fetch_a_1",
+        "name": "Fetch Symbol A",
+        "type": "postgres_sql",
+        "typeVersion": 1,
+        "position": [
+          400,
+          100
+        ],
+        "parameters": {
+          "sql": "SELECT time_bucket('1 day', time) AS bucket,\n       (array_agg(close ORDER BY time ASC))[1] AS close,\n       symbol\nFROM public.ohlc_data\nWHERE symbol = 'AAPL.US/USD'\n  AND time >= (now() - interval '30 days')\nGROUP BY bucket, symbol\nORDER BY bucket ASC"
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "fetch_b_1",
+        "name": "Fetch Symbol B",
+        "type": "postgres_sql",
+        "typeVersion": 1,
+        "position": [
+          700,
+          100
+        ],
+        "parameters": {
+          "sql": "SELECT time_bucket('1 day', time) AS bucket,\n       (array_agg(close ORDER BY time ASC))[1] AS close,\n       symbol\nFROM public.ohlc_data\nWHERE symbol = 'MSFT.US/USD'\n  AND time >= (now() - interval '30 days')\nGROUP BY bucket, symbol\nORDER BY bucket ASC"
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "ai_chat_1",
+        "name": "Correlation Analyzer",
+        "type": "llm",
+        "typeVersion": 1,
+        "position": [
+          1000,
+          100
+        ],
+        "parameters": {
+          "system": "You are a financial analyst. Provide a concise analysis of the correlation between the two provided stock price series.",
+          "prompt": "Using the data below, describe whether the price movements of AAPL.US/USD and MSFT.US/USD are positively correlated, negatively correlated, or uncorrelated, and give any notable observations.\n\nAAPL.US/USD data:\n{{ vars['Fetch Symbol A']['results'] }}\n\nMSFT.US/USD data:\n{{ vars['Fetch Symbol B']['results'] }}",
+          "apiKey": ""
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      },
+      {
+        "id": "markdown_1",
+        "name": "Show Data",
+        "type": "markdown",
+        "typeVersion": 1,
+        "position": [
+          1300,
+          100
+        ],
+        "parameters": {
+          "widgetId": "wid_hmqw7gqj",
+          "textExpr": "{{ vars['Correlation Analyzer']['text'] }}",
+          "text": "",
+          "fontSize": ""
+        },
+        "deprecated": null,
+        "deprecatedAt": null,
+        "deprecation": null,
+        "logo_url": null,
+        "monetization": null
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Fetch Symbol A",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Fetch Symbol A": {
+        "main": [
+          [
+            {
+              "node": "Fetch Symbol B",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Fetch Symbol B": {
+        "main": [
+          [
+            {
+              "node": "Correlation Analyzer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Correlation Analyzer": {
+        "main": [
+          [
+            {
+              "node": "Show Data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "trigger": null,
+    "visibility": "private",
+    "workflowDescription": "This workflow runs on a schedule, pulls time‑series data for two symbols from TimescaleDB, uses an LLM to calculate their correlation, and then presents the result as formatted markdown.",
+    "trigger_token": "cb9cd0097fec03da8f02473a0c56882b",
+    "doc_info": {
+      "updated_at": "2026-01-11T21:33:53.431420"
+    },
+    "run_seq": 5
+  },
+  "version": "1.0",
+  "exported_at": "2026-01-11T21:34:15.239913+00:00"
+}

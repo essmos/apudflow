@@ -16,31 +16,8 @@ A comprehensive workflow system for building and testing trading strategies acro
 
 ## Project Structure
 
-Each folder in this repository focuses on a specific aspect of workflow development with its own dedicated documentation:
+Each folder in this repository focuses on a specific aspect of workflow development with its own dedicated documentation
 
-### 📊 Stock Exchange Workflows
-- Strategy implementations for stock trading
-- Test strategies and backtesting frameworks
-- Bot templates for automated stock trading
-- See [`stocks/`](stocks/) for detailed documentation
-
-### 🪙 Cryptocurrency Workflows
-- Strategy implementations for crypto trading
-- Test strategies and market simulation
-- Bot implementations for crypto markets
-- See [`crypto/`](crypto/) for detailed documentation
-
-### 💱 Currency (Forex) Workflows
-- Strategy implementations for forex trading
-- Test strategies and currency pair analysis
-- Bot templates for automated forex trading
-- See [`forex/`](forex/) for detailed documentation
-
-### 🛠️ Core Utilities
-- Shared workflow components and helpers
-- Base classes and interfaces
-- Common testing utilities
-- See [`core/`](core/) for detailed documentation
 
 ## Getting Started
 
@@ -64,12 +41,6 @@ Each folder contains a dedicated `WORKFLOWS.md` file with detailed information a
 - How to implement and customize workflows
 - Bot setup and deployment instructions
 
-Start with any folder that matches your interest:
-
-- [Stock Exchange Workflows](stocks/WORKFLOWS.md)
-- [Cryptocurrency Workflows](crypto/WORKFLOWS.md)
-- [Currency (Forex) Workflows](forex/WORKFLOWS.md)
-- [Core Utilities](core/README.md)
 
 ## Understanding Workflows in apudflow
 

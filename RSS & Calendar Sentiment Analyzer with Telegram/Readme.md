@@ -2,17 +2,17 @@
 
 ## Overview
 
-This ApupFlow workflow automatically gathers the latest financial news from RSS feeds and recent economic‑calendar events, runs an AI‑driven sentiment analysis, and delivers a concise market‑sentiment summary to a Telegram chat. It is designed for traders, analysts, or anyone who needs a quick, hourly snapshot of market mood and upcoming macro events without manually checking multiple sources.
+This ApudFlow workflow automatically gathers the latest financial news from RSS feeds and recent economic‑calendar events, runs an AI‑driven sentiment analysis, and delivers a concise market‑sentiment summary to a Telegram chat. It is designed for traders, analysts, or anyone who needs a quick, hourly snapshot of market mood and upcoming macro events without manually checking multiple sources.
 
 ## Prerequisites & Setup Requirements
 
 | Requirement                  | Details                                                                                                                             |
 | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **ApupFlow account**         | Access to the visual workflow builder and ability to add workers.                                                                   |
+| **ApudFlow account**         | Access to the visual workflow builder and ability to add workers.                                                                   |
 | **Telegram Bot**             | Create a bot via BotFather and obtain the Bot Token.                                                                                |
 | **Telegram Chat ID**         | The numeric chat ID of the target group, channel, or private chat (or the username prefixed with `@`).                              |
 | **RSS Feed URLs**            | The RSS connector uses pre‑configured sources; ensure the feeds you need are supported or added in the worker settings.             |
-| **Economic Calendar Access** | No extra API key is required for the built‑in calendar connector, but the service must be reachable from your ApupFlow environment. |
+| **Economic Calendar Access** | No extra API key is required for the built‑in calendar connector, but the service must be reachable from your ApudFlow environment. |
 | **LLM Model Access**         | The workflow uses the `meta-llama/llama-4-maverick` model; ensure your account has permission to invoke this model.                 |
 | **Internet connectivity**    | Required for fetching RSS, calendar data, and calling the LLM and Telegram APIs.                                                    |
 
@@ -25,7 +25,7 @@ This ApupFlow workflow automatically gathers the latest financial news from RSS 
 | **Browse Calendar**  | Data connector – economic calendar | Pulls economic‑calendar events from the past week up to 72 hours ago, filtered for medium‑to‑high impact (`impact: 2+`) and sorted newest‑first.                        |
 | **News Analyzer**    | AI – LLM                           | Sends the combined RSS and calendar data to the LLM with a system prompt that includes the raw results, then asks for a concise (≤150 words) market‑sentiment analysis. |
 | **Telegram Notify**  | Data connector – Telegram          | Sends the LLM’s text output as a message to the specified Telegram chat.                                                                                                |
-| **Analysis Output**  | Visualization – markdown           | Renders the same analysis inside the ApupFlow UI for quick visual reference.                                                                                            |
+| **Analysis Output**  | Visualization – markdown           | Renders the same analysis inside the ApudFlow UI for quick visual reference.                                                                                            |
 
 ## Data Flow
 
@@ -61,11 +61,11 @@ This ApupFlow workflow automatically gathers the latest financial news from RSS 
 
 ## Usage Instructions
 
-1. **Import the workflow** into your ApupFlow workspace (use the “Import” button and paste the workflow definition).
+1. **Import the workflow** into your ApudFlow workspace (use the “Import” button and paste the workflow definition).
 2. **Configure the Telegram node**:
    * Open **Telegram Notify**.
    * Insert your chat ID or username in the `chatId` field.
-   * Ensure the bot token is set globally in your ApupFlow environment (or in the Telegram connector settings).
+   * Ensure the bot token is set globally in your ApudFlow environment (or in the Telegram connector settings).
 3. **Verify RSS sources** (optional):
    * If you need specific feeds, edit the **Fetch RSS** node and add the desired URLs in the worker’s configuration panel.
 4. **Adjust filters** (optional):
@@ -82,6 +82,6 @@ This ApupFlow workflow automatically gathers the latest financial news from RSS 
   * Overall market sentiment derived from recent news and calendar events.
   * The most important upcoming economic releases.
   * Potential short‑term impact on major asset classes such as equities, FX, commodities, and bonds.
-* **Dashboard View**: The same analysis rendered as markdown in the **Analysis Output** widget, allowing quick visual verification without leaving ApupFlow.
+* **Dashboard View**: The same analysis rendered as markdown in the **Analysis Output** widget, allowing quick visual verification without leaving ApudFlow.
 
 By following the steps above, the workflow will keep you informed of market sentiment on an hourly basis, delivering actionable insights straight to your preferred Telegram channel.

@@ -1,0 +1,177 @@
+{
+  "workflow": {
+    "name": "RSS & Calendar Sentiment Analyzer with Telegram",
+    "nodes": [
+      {
+        "id": "trigger_1",
+        "name": "Schedule Trigger",
+        "type": "schedule_trigger",
+        "position": [
+          100,
+          100
+        ],
+        "parameters": {
+          "everySeconds": 3600,
+          "atTimestamp": 0,
+          "cron": ""
+        }
+      },
+      {
+        "id": "fetch_rss_1",
+        "name": "Fetch RSS",
+        "type": "fetch_rss",
+        "position": [
+          400,
+          100
+        ],
+        "parameters": {
+          "rss_urls": [
+            "https://www.investing.com/rss/news_1063.rss",
+            "https://feeds.bloomberg.com/markets/news.rss",
+            "https://news.yahoo.com/rss/finance"
+          ],
+          "limit": 20
+        }
+      },
+      {
+        "id": "fetch_calendar_1",
+        "name": "Browse Calendar",
+        "type": "browse_calendar",
+        "position": [
+          700,
+          100
+        ],
+        "parameters": {
+          "currency": [
+            "USD",
+            "EUR"
+          ],
+          "country": [],
+          "event_name": "",
+          "impact": "2+",
+          "dateFrom": "{{ (now() - days(7)).strftime('%Y-%m-%d') }}",
+          "dateTo": "{{ (now() - hours(72)).strftime('%Y-%m-%d %H:%M') }}",
+          "limit": 20,
+          "sort": "date_desc",
+          "include_forecast_changes": false,
+          "include_previous_changes": false,
+          "previous_changes_limit": 10
+        }
+      },
+      {
+        "id": "llm_1",
+        "name": "News Analyzer",
+        "type": "llm",
+        "position": [
+          1000,
+          100
+        ],
+        "parameters": {
+          "system": "{{ vars['Browse Calendar']['results'] }} {{ vars['Fetch RSS']['results'] }}",
+          "prompt": "Based on the combined RSS feed items and economic calendar events, provide a concise (max 150 words) analysis of current market sentiment, key upcoming events, and any potential impact on major asset classes.",
+          "model": "meta-llama/llama-4-maverick",
+          "max_tokens": "500",
+          "apiKey": ""
+        }
+      },
+      {
+        "id": "telegram_1",
+        "name": "Telegram Notify",
+        "type": "telegram_notify",
+        "position": [
+          1300,
+          100
+        ],
+        "parameters": {
+          "chatId": "<YOUR_CHAT_ID_OR_USERNAME>",
+          "text": "{{ vars['News Analyzer']['text'] }}",
+          "disableWebPagePreview": false,
+          "escapeMarkdown": true,
+          "photoUrl": ""
+        }
+      },
+      {
+        "id": "markdown_1",
+        "name": "Analysis Output",
+        "type": "markdown",
+        "position": [
+          1600,
+          100
+        ],
+        "parameters": {
+          "widgetId": "wid_analysis_output",
+          "textExpr": "{{ vars['News Analyzer']['text'] }}",
+          "text": "",
+          "fontSize": ""
+        }
+      }
+    ],
+    "connections": {
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Fetch RSS",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Fetch RSS": {
+        "main": [
+          [
+            {
+              "node": "Browse Calendar",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Browse Calendar": {
+        "main": [
+          [
+            {
+              "node": "News Analyzer",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "News Analyzer": {
+        "main": [
+          [
+            {
+              "node": "Telegram Notify",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Telegram Notify": {
+        "main": [
+          [
+            {
+              "node": "Analysis Output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "trigger": null,
+    "visibility": "private",
+    "workflowDescription": "",
+    "trigger_token": "faabf912e43fe30d9c86af2094cf663e",
+    "doc_info": {
+      "updated_at": "2026-02-02T19:18:17.956266"
+    },
+    "run_seq": 9
+  },
+  "version": "1.0",
+  "exported_at": "2026-02-02T19:18:36.898438+00:00"
+}
